@@ -20,9 +20,9 @@ do
         #concat folder and line
         OUTPUTFILE=$FOLDER$LINE
         cp $outputfile output/$LINE
-        echo $outputfile
 
     fi
+    echo "Diffs have been copied to output/"
 done
 
 
