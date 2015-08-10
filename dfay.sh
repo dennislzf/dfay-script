@@ -13,11 +13,19 @@ for LINE in `diff -r data1/ data2/ | grep st.*\.jpg`
         #folder is line without the last character as its a ':'
         FOLDER="${LINE%?}"
     fi
-    if [[ $LINE =~ .*"st".*\.jpg ]];
+    #on binary file diffs line is different
+    if [[ $LINE =~ ^st.*\.jpg ]];
     then
       #concat folder and line
       OUTPUTFILE=$FOLDER$LINE;
       NEWOUTPUTFILE=${OUTPUTFILE/.jpg/-${FOLDER%?}.jpg}
+      cp $OUTPUTFILE $NEWOUTPUTFILE
+      mv $NEWOUTPUTFILE output/;
+    elif [[ $LINE =~ data.*st.*\.jpg ]]
+      then
+      OUTPUTFILE=$LINE;
+      IFS='/ ' read -a array <<< "$LINE"
+      NEWOUTPUTFILE=${OUTPUTFILE/.jpg/-${array[0]}.jpg}
       cp $OUTPUTFILE $NEWOUTPUTFILE
       mv $NEWOUTPUTFILE output/;
     fi
